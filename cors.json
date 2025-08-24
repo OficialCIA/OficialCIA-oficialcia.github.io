@@ -1,0 +1,8 @@
+[
+  {
+    "origin": ["https://oficialcia.github.io/drawings.html", "http://localhost:5500"],
+    "method": ["GET", "OPTIONS"],
+    "responseHeader": ["Content-Type"],
+    "maxAgeSeconds": 3600
+  }
+]
