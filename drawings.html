@@ -95,13 +95,12 @@
         // COLE SUA CONFIGURAÇÃO DO FIREBASE AQUI
         // Substitua os placeholders abaixo pelos seus GitHub Secrets
         const firebaseConfig = {
-                apiKey: "AIzaSyA6UJ3nC1WD0HQxbGBKm-L4Bmbk5_YdTNM",
-                authDomain: "kayque-e2385.firebaseapp.com",
-                projectId: "kayque-e2385",
-                storageBucket: "kayque-e2385.firebasestorage.app",
-                messagingSenderId: "719897671237",
-                appId: "1:719897671237:web:d9a1f4ad69a0e72ff3952c",
-                measurementId: "G-LEBFZLRYC6"
+  apiKey: "AIzaSyA6UJ3nC1WD0HQxbGBKm-L4Bmbk5_YdTNM",
+  authDomain: "kayque-e2385.firebaseapp.com",
+  projectId: "kayque-e2385",
+  storageBucket: "kayque-e2385.firebasestorage.app",
+  messagingSenderId: "719897671237",
+  appId: "1:719897671237:web:d9a1f4ad69a0e72ff3952c",
         };
         // *******************************************************************
 
@@ -149,7 +148,7 @@
             const oldData = ctx.getImageData(0, 0, canvas.width, canvas.height);
             canvas.width = canvas.parentElement.clientWidth;
             canvas.height = canvas.parentElement.clientHeight;
-            ctx.putImageData(oldData, 0, 0); // Restaura o desenho após redimensionar
+            ctx.putImageData(oldData, 0, 0);
             ctx.lineWidth = brushSizeInput.value;
             ctx.lineCap = 'round';
             ctx.strokeStyle = colorPicker.value;
@@ -235,4 +234,108 @@
             buttonElement.disabled = true;
             statusElement.classList.remove('hidden');
 
-            const filePath =
+            const filePath = `drawings/${userId}_${Date.now()}_${file.name}`;
+            const fileRef = ref(storage, filePath);
+
+            try {
+                const uploadResult = await uploadBytes(fileRef, file);
+                const imageUrl = await getDownloadURL(uploadResult.ref);
+
+                await addDoc(collection(db, `drawings`), {
+                    imageUrl: imageUrl,
+                    userId: userId,
+                    timestamp: serverTimestamp(),
+                    userName: `Anônimo` 
+                });
+                showModal("Desenho enviado com sucesso!");
+                return true;
+            } catch (error) {
+                console.error("Erro no upload: ", error);
+                showModal("Erro ao enviar o desenho. Tente novamente.");
+                return false;
+            } finally {
+                buttonElement.disabled = false;
+                statusElement.classList.add('hidden');
+            }
+        }
+
+        fileUploadBtn.addEventListener('click', async () => {
+            const file = fileUploadInput.files[0];
+            if (!file) {
+                showModal("Por favor, selecione um arquivo de imagem.");
+                return;
+            }
+            const success = await uploadFile(file, fileUploadBtn, fileUploadStatus);
+            if (success) fileUploadInput.value = '';
+        });
+
+        canvasUploadBtn.addEventListener('click', async () => {
+            const canvasDataUrl = canvas.toDataURL('image/jpeg', 0.85); 
+            const blob = await fetch(canvasDataUrl).then(res => res.blob());
+            const file = new File([blob], `canvas_drawing.jpeg`, { type: 'image/jpeg' });
+            
+            const success = await uploadFile(file, canvasUploadBtn, canvasUploadStatus);
+            if (success) ctx.clearRect(0, 0, canvas.width, canvas.height);
+        });
+
+        // --- LÓGICA DA GALERIA EM TEMPO REAL ---
+        function setupRealtimeGallery() {
+            const drawingsQuery = query(collection(db, `drawings`), orderBy("timestamp", "desc"));
+            
+            onSnapshot(drawingsQuery, (querySnapshot) => {
+                drawingsGallery.innerHTML = '';
+                loadingDrawings.classList.add('hidden');
+                
+                if (querySnapshot.empty) {
+                    drawingsGallery.innerHTML = `<p class="col-span-full text-center text-gray-500">Nenhum desenho ainda. Seja o primeiro a enviar!</p>`;
+                    return;
+                }
+
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const card = document.createElement('div');
+                    card.className = 'bg-white rounded-lg shadow-md overflow-hidden flex flex-col transition-transform hover:-translate-y-1';
+                    
+                    const img = document.createElement('img');
+                    img.src = data.imageUrl;
+                    img.alt = `Desenho de ${data.userName}`;
+                    img.className = 'w-full h-48 object-cover';
+                    img.loading = 'lazy';
+                    
+                    const userText = document.createElement('p');
+                    userText.className = 'text-sm text-gray-600 p-3 mt-auto';
+                    const timestamp = data.timestamp ? new Date(data.timestamp.seconds * 1000).toLocaleDateString('pt-BR') : 'data inválida';
+                    userText.textContent = `Enviado por: ${data.userName} em ${timestamp}`;
+
+                    card.appendChild(img);
+                    card.appendChild(userText);
+
+                    const link = document.createElement('a');
+                    link.href = data.imageUrl;
+                    link.target = '_blank';
+                    link.appendChild(card);
+                    
+                    drawingsGallery.appendChild(link);
+                });
+            }, (error) => {
+                console.error("Erro ao carregar desenhos: ", error);
+                drawingsGallery.innerHTML = `<p class="col-span-full text-center text-red-500">Erro ao carregar a galeria.</p>`;
+            });
+        }
+
+        // --- AUTENTICAÇÃO ---
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                userId = user.uid;
+                setupRealtimeGallery();
+            } else {
+                signInAnonymously(auth).catch((error) => {
+                    console.error("Erro no login anônimo: ", error);
+                    showModal("Não foi possível autenticar. A galeria não funcionará corretamente.");
+                });
+            }
+        });
+
+    </script>
+</body>
+</html>
