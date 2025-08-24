@@ -13,21 +13,30 @@
     <!-- Fontes do Google e Tailwind CSS CDN -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Estilos personalizados para o corpo da página e fonte -->
     <style>
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Quicksand', sans-serif;
             background-color: #f7e9f3;
+        }
+
+        /* Estilos do seu CSS aplicados ao contêiner */
+        .anilist-card {
+            background-image: url(img/img.png);
+            background-repeat: no-repeat;
+            background-size: cover; /* Para garantir que a imagem cubra o fundo */
+            background-position: center; /* Para centralizar a imagem */
+            height: 535px; /* Altura fixa, pode causar problemas de responsividade em telas pequenas */
         }
     </style>
 </head>
 <body class="bg-gradient-to-b from-rose-50 to-pink-100 min-h-screen flex items-center justify-center p-4">
 
     <!-- Card Principal para o Conteúdo -->
-    <div class="bg-white rounded-3xl shadow-2xl p-8 sm:p-12 w-full max-w-lg text-center transform transition-all hover:scale-105 duration-300">
+    <div class="anilist-card bg-white rounded-3xl shadow-2xl p-8 sm:p-12 w-full max-w-lg text-center transform transition-all hover:scale-105 duration-300 flex flex-col justify-center items-center">
         
         <!-- Título principal -->
         <h1 class="text-5xl sm:text-6xl font-extrabold text-pink-500 mb-4 tracking-tight">Cia</h1>
