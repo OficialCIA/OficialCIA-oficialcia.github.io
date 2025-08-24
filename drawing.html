@@ -1,1 +1,283 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desenhos - Kayque Olimpio</title>
+    <meta name="title" content="Galeria de Desenhos">
+    <meta name="description" content="Galeria onde usuários podem enviar e visualizar desenhos.">
+    <meta name="theme-color" content="#c2e9fb">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
 
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #eaf6ff;
+        }
+        .drawing-card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s ease-in-out;
+        }
+        .drawing-card:hover {
+            transform: translateY(-5px);
+        }
+        .canvas-container {
+            border: 2px solid #3b82f6;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-b from-blue-50 to-blue-200 min-h-screen flex flex-col items-center p-4">
+
+    <!-- Menu de Navegação -->
+    <nav class="w-full max-w-lg mb-8">
+        <ul class="flex justify-center space-x-6 text-xl">
+            <li><a href="index.html" class="font-bold text-gray-700 hover:text-blue-600 transition-colors">Início</a></li>
+            <li><a href="about.html" class="font-bold text-gray-700 hover:text-blue-600 transition-colors">Sobre Mim</a></li>
+            <li><a href="projects.html" class="font-bold text-gray-700 hover:text-blue-600 transition-colors">Projetos</a></li>
+            <li><a href="drawings.html" class="font-bold text-blue-500 hover:text-blue-600 transition-colors">Desenhos</a></li>
+        </ul>
+    </nav>
+
+    <!-- Container Principal -->
+    <div class="bg-white rounded-3xl shadow-2xl p-8 sm:p-12 w-full max-w-4xl text-center flex flex-col items-center">
+        
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-blue-500 mb-6 tracking-tight">Galeria de Desenhos</h1>
+
+        <!-- Ferramenta de Desenho Integrada -->
+        <div class="w-full max-w-md bg-blue-50 p-6 rounded-lg shadow-inner mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Criar um Desenho</h2>
+            
+            <!-- Controles de Ferramentas -->
+            <div class="flex flex-wrap items-center justify-center gap-4 mb-6 w-full max-w-md">
+                <button id="tool-pencil" class="p-3 rounded-full bg-blue-500 text-white shadow-lg transition-colors duration-200 hover:bg-blue-600">
+                    Lápis
+                </button>
+                <button id="tool-eraser" class="p-3 rounded-full bg-blue-500 text-white shadow-lg transition-colors duration-200 hover:bg-blue-600">
+                    Borracha
+                </button>
+                <input type="color" id="color-picker" value="#000000" class="w-10 h-10 p-1 rounded-full cursor-pointer border-2 border-blue-500">
+                <input type="range" id="brush-size" min="1" max="50" value="5" class="w-24">
+                <button id="clear-btn" class="p-3 rounded-full bg-red-500 text-white shadow-lg transition-colors duration-200 hover:bg-red-600">
+                    Limpar
+                </button>
+            </div>
+            
+            <!-- Canvas de Desenho -->
+            <div class="canvas-container w-full aspect-[4/3] max-w-full mb-4">
+                <canvas id="drawing-canvas" class="w-full h-full bg-white"></canvas>
+            </div>
+
+            <!-- Botão de Upload -->
+            <button id="upload-btn" class="w-full bg-green-500 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-colors duration-300 hover:bg-green-600">
+                Salvar e Enviar
+            </button>
+            <p id="upload-status" class="mt-4 text-sm text-gray-600 hidden">Fazendo upload...</p>
+        </div>
+
+        <!-- Galeria de Desenhos -->
+        <div id="drawings-gallery" class="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Os desenhos serão carregados aqui dinamicamente -->
+            <p id="loading-drawings" class="col-span-full text-gray-500">Carregando desenhos...</p>
+        </div>
+    </div>
+
+    <!-- Firebase SDKs e Lógica -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
+
+        // Global variables for Firebase config and app ID
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = JSON.parse(__firebase_config);
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        const storage = getStorage(app);
+        let userId = null;
+
+        // UI elements
+        const canvas = document.getElementById('drawing-canvas');
+        const ctx = canvas.getContext('2d');
+        const colorPicker = document.getElementById('color-picker');
+        const brushSizeInput = document.getElementById('brush-size');
+        const pencilToolBtn = document.getElementById('tool-pencil');
+        const eraserToolBtn = document.getElementById('tool-eraser');
+        const clearBtn = document.getElementById('clear-btn');
+        const uploadBtn = document.getElementById('upload-btn');
+        const uploadStatus = document.getElementById('upload-status');
+        const drawingsGallery = document.getElementById('drawings-gallery');
+        const loadingDrawings = document.getElementById('loading-drawings');
+        
+        let isDrawing = false;
+        let lastX = 0;
+        let lastY = 0;
+        let brushColor = '#000000';
+        let brushSize = 5;
+        let currentTool = 'pencil';
+        
+        // Canvas Drawing Logic
+        function resizeCanvas() {
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = canvas.parentElement.clientHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        window.onload = resizeCanvas;
+        
+        function draw(e) {
+            if (!isDrawing) return;
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(e.offsetX, e.offsetY);
+            ctx.stroke();
+            [lastX, lastY] = [e.offsetX, e.offsetY];
+        }
+        
+        canvas.addEventListener('mousedown', (e) => {
+            isDrawing = true;
+            [lastX, lastY] = [e.offsetX, e.offsetY];
+        });
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', () => isDrawing = false);
+        canvas.addEventListener('mouseout', () => isDrawing = false);
+
+        // Tool selection logic
+        pencilToolBtn.addEventListener('click', () => {
+            currentTool = 'pencil';
+            ctx.globalCompositeOperation = 'source-over';
+            ctx.strokeStyle = brushColor;
+        });
+
+        eraserToolBtn.addEventListener('click', () => {
+            currentTool = 'eraser';
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.strokeStyle = `rgba(0,0,0,1)`;
+        });
+
+        // Color and size change listeners
+        colorPicker.addEventListener('change', (e) => {
+            brushColor = e.target.value;
+            if (currentTool === 'pencil') {
+                ctx.strokeStyle = brushColor;
+            }
+        });
+
+        brushSizeInput.addEventListener('change', (e) => {
+            brushSize = e.target.value;
+            ctx.lineWidth = brushSize;
+        });
+        
+        clearBtn.addEventListener('click', () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        });
+
+        // Initial canvas context settings
+        ctx.lineWidth = brushSize;
+        ctx.lineCap = 'round';
+        ctx.strokeStyle = brushColor;
+        
+        // Authentication State Listener
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                userId = user.uid;
+                setupDrawingUpload();
+                setupRealtimeGallery();
+            } else {
+                signInAnonymously(auth).catch((error) => {
+                    console.error("Erro ao fazer login anônimo: ", error);
+                    alert("Não foi possível autenticar o usuário. Tente novamente.");
+                });
+            }
+        });
+
+        // Setup drawing upload functionality
+        function setupDrawingUpload() {
+            uploadBtn.addEventListener('click', async () => {
+                const canvasDataUrl = canvas.toDataURL('image/png');
+                const blob = await fetch(canvasDataUrl).then(res => res.blob());
+                const file = new File([blob], 'drawing.png', { type: 'image/png' });
+
+                const fileRef = ref(storage, `artifacts/${appId}/public/drawings/${file.name}_${Date.now()}`);
+                
+                uploadBtn.disabled = true;
+                uploadStatus.classList.remove('hidden');
+
+                try {
+                    // Upload the file to Firebase Storage
+                    const uploadResult = await uploadBytes(fileRef, file);
+                    const imageUrl = await getDownloadURL(uploadResult.ref);
+
+                    // Add a new document to Firestore
+                    await addDoc(collection(db, `artifacts/${appId}/public/data/drawings`), {
+                        imageUrl: imageUrl,
+                        userId: userId,
+                        timestamp: serverTimestamp(),
+                        userName: `Usuário Anônimo` // Simple user name for now
+                    });
+
+                    alert("Desenho enviado com sucesso!");
+                    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+                } catch (error) {
+                    console.error("Erro ao fazer upload do desenho: ", error);
+                    alert("Erro ao enviar o desenho. Tente novamente.");
+                } finally {
+                    uploadBtn.disabled = false;
+                    uploadStatus.classList.add('hidden');
+                }
+            });
+        }
+
+        // Setup real-time gallery listener
+        function setupRealtimeGallery() {
+            const drawingsQuery = query(collection(db, `artifacts/${appId}/public/data/drawings`), orderBy("timestamp", "desc"));
+            
+            onSnapshot(drawingsQuery, (querySnapshot) => {
+                drawingsGallery.innerHTML = '';
+                loadingDrawings.classList.add('hidden');
+                
+                if (querySnapshot.empty) {
+                    drawingsGallery.innerHTML = `<p class="col-span-full text-center text-gray-500">Nenhum desenho ainda. Seja o primeiro a fazer upload!</p>`;
+                    return;
+                }
+
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const card = document.createElement('div');
+                    card.className = 'drawing-card';
+                    
+                    const img = document.createElement('img');
+                    img.src = data.imageUrl;
+                    img.alt = `Desenho de ${data.userName}`;
+                    img.className = 'w-full h-auto object-cover rounded-t-lg';
+                    
+                    const userText = document.createElement('p');
+                    userText.className = 'text-sm text-gray-600 p-3';
+                    const timestamp = data.timestamp ? new Date(data.timestamp.seconds * 1000).toLocaleDateString() : 'data desconhecida';
+                    userText.textContent = `Enviado por: ${data.userName} em ${timestamp}`;
+
+                    card.appendChild(img);
+                    card.appendChild(userText);
+                    drawingsGallery.appendChild(card);
+                });
+            }, (error) => {
+                console.error("Erro ao carregar desenhos: ", error);
+                drawingsGallery.innerHTML = `<p class="col-span-full text-center text-red-500">Erro ao carregar a galeria.</p>`;
+            });
+        }
+    </script>
+</body>
+</html>
