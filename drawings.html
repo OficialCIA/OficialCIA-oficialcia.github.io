@@ -92,8 +92,7 @@
         import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
 
         // *******************************************************************
-        // COLE SUA CONFIGURAÇÃO DO FIREBASE AQUI
-        // Substitua os placeholders abaixo pelos seus GitHub Secrets
+        // Lembre-se de usar GitHub Secrets para proteger suas chaves!
 const firebaseConfig = {
   apiKey: "AIzaSyA6UJ3nC1WD0HQxbGBKm-L4Bmbk5_YdTNM",
   authDomain: "kayque-e2385.firebaseapp.com",
@@ -270,13 +269,38 @@ const firebaseConfig = {
             if (success) fileUploadInput.value = '';
         });
 
+        // =========================================================================
+        // NOVA LÓGICA DE REDIMENSIONAMENTO E COMPRESSÃO IMPLEMENTADA AQUI
+        // =========================================================================
         canvasUploadBtn.addEventListener('click', async () => {
-            const canvasDataUrl = canvas.toDataURL('image/jpeg', 0.85); 
+            const MAX_WIDTH = 1280; // Define a largura máxima para a imagem
+            let sourceCanvas = canvas; // Começa com o canvas original
+
+            // Se o canvas for maior que a largura máxima, redimensiona
+            if (canvas.width > MAX_WIDTH) {
+                const scale = MAX_WIDTH / canvas.width;
+                const newHeight = canvas.height * scale;
+
+                const tempCanvas = document.createElement('canvas');
+                tempCanvas.width = MAX_WIDTH;
+                tempCanvas.height = newHeight;
+                
+                const tempCtx = tempCanvas.getContext('2d');
+                // Desenha a imagem do canvas original no canvas temporário (menor)
+                tempCtx.drawImage(canvas, 0, 0, MAX_WIDTH, newHeight);
+                
+                sourceCanvas = tempCanvas; // Usa o canvas temporário como fonte para o upload
+            }
+
+            // Gera o JPEG a partir do canvas fonte (original ou redimensionado)
+            const canvasDataUrl = sourceCanvas.toDataURL('image/jpeg', 0.85); 
             const blob = await fetch(canvasDataUrl).then(res => res.blob());
             const file = new File([blob], `canvas_drawing.jpeg`, { type: 'image/jpeg' });
             
             const success = await uploadFile(file, canvasUploadBtn, canvasUploadStatus);
-            if (success) ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (success) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpa o canvas original
+            }
         });
 
         // --- LÓGICA DA GALERIA EM TEMPO REAL ---
