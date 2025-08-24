@@ -1,33 +1,23 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <!-- Título e Meta Descrições -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#c2e9fb">
+
     <title>Kayque Olimpio</title>
     <meta name="title" content="Página de Kayque Olimpio">
     <meta name="description" content="Página de entrada de Kayque Olimpio, com um menu de navegação e links importantes.">
     
-    <!-- Configurações para dispositivos móveis -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#c2e9fb">
-    
-    <!-- Fontes do Google e Tailwind CSS CDN -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Estilos personalizados para o corpo da página e animações -->
     <style>
         body {
             font-family: 'Quicksand', sans-serif;
-            background-color: #eaf6ff;
-            /* Efeito de paralaxe no scroll */
-            perspective: 1px;
-            transform-style: preserve-3d;
-            height: 100vh;
-            overflow-y: scroll;
             overflow-x: hidden;
-            position: relative;
         }
 
         /* Efeito de brilho na sombra do card */
@@ -44,64 +34,39 @@
             }
         }
 
-        /* Animação de digitação */
-        .typewriter-text {
-            overflow: hidden; /* Garante que o texto não apareça todo de uma vez */
-            border-right: .15em solid orange; /* O cursor piscando */
-            white-space: nowrap; /* Impede que o texto quebre a linha */
-            animation: typing 3s steps(40, end), blink-caret .75s step-end infinite;
-        }
-
-        /* A animação de digitação */
-        @keyframes typing {
-            from { width: 0 }
-            to { width: 100% }
-        }
-
-        /* O cursor piscando */
-        @keyframes blink-caret {
-            from, to { border-color: transparent }
-            50% { border-color: orange }
-        }
-        
-        /* Estilos para a animação da carta */
+        /* Animação da carta de palhaço */
         .joker-card {
             position: absolute;
             top: 20px;
             right: 20px;
-            width: 40px; /* Tamanho reduzido */
-            height: auto; /* Altura automática para manter a proporção */
+            width: 40px;
+            height: auto;
             z-index: 10;
-            border-radius: 4px; /* Borda mais suave */
+            border-radius: 4px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            
-            /* Animação de balanço suave */
             animation: swing 4s ease-in-out infinite;
             transform-origin: top center;
-            transition: transform 0.3s ease-out; /* Transição para o movimento de giro */
+            transition: transform 0.3s ease-out;
         }
         
         @keyframes swing {
-            0% { transform: rotate(0deg); }
+            0%, 50%, 100% { transform: rotate(0deg); }
             25% { transform: rotate(5deg); }
-            50% { transform: rotate(0deg); }
             75% { transform: rotate(-5deg); }
-            100% { transform: rotate(0deg); }
         }
 
-        /* Nova animação ao passar o mouse */
+        /* Ação ao passar o mouse sobre a carta */
         .joker-card:hover {
-            animation: none; /* Desativa o balanço no hover */
-            transform: scale(1.1) rotateZ(5deg); /* Aumenta e gira levemente */
+            animation-play-state: paused;
+            transform: scale(1.1) rotateZ(5deg);
         }
     </style>
 </head>
+
 <body class="bg-gradient-to-b from-blue-50 to-blue-200 min-h-screen flex flex-col items-center justify-center p-4">
 
-    <!-- Carta de Palhaço com animação de balanço e giro -->
     <img src="https://img.icons8.com/ios-filled/50/joker-card.png" alt="Ícone de carta de palhaço" class="joker-card">
 
-    <!-- Menu de Navegação -->
     <nav class="w-full max-w-lg mb-8">
         <ul class="flex justify-center space-x-6 text-xl">
             <li><a href="index.html" class="font-bold text-blue-500 hover:text-blue-600 transition-colors">Início</a></li>
@@ -111,57 +76,42 @@
         </ul>
     </nav>
 
-    <!-- Card Principal para o Conteúdo -->
-    <div class="card-glow bg-white rounded-3xl shadow-2xl p-8 sm:p-12 w-full max-w-lg text-center transform transition-all hover:scale-105 duration-300 flex flex-col justify-center items-center">
+    <main class="card-glow bg-white rounded-3xl shadow-2xl p-8 sm:p-12 w-full max-w-lg text-center transform transition-all hover:scale-105 duration-300">
         
-        <!-- Título principal -->
         <h1 class="text-5xl sm:text-6xl font-extrabold text-blue-500 mb-4 tracking-tight">Kayque Olimpio</h1>
         
-        <!-- Frase com a animação de digitação -->
-        <p id="quote-text" class="text-gray-700 text-lg sm:text-xl leading-relaxed mb-6 font-medium">
-            "A história de todas as sociedades até hoje existentes é a história das lutas de classes."
-        </p>
+        <p id="quote-text" class="text-gray-700 text-lg sm:text-xl leading-relaxed mb-6 font-medium min-h-[56px]">
+            </p>
         
-        <!-- Botão estilizado para o link do Instagram -->
-        <a href="https://www.instagram.com/kayquewrld/" class="inline-flex items-center justify-center bg-blue-500 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-colors duration-300 hover:bg-blue-600">
-            <!-- Ícone SVG de um link para o Instagram -->
+        <a href="https://www.instagram.com/kayquewrld/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center bg-blue-500 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-colors duration-300 hover:bg-blue-600">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
             </svg>
             Meu Instagram
         </a>
-    </div>
+    </main>
 
     <script>
         // Lógica para o efeito de digitação (typewriter)
         const quoteElement = document.getElementById('quote-text');
-        const quote = quoteElement.textContent;
-        quoteElement.textContent = ''; // Limpa o texto para a animação
-
+        const quote = '"A história de todas as sociedades até hoje existentes é a história das lutas de classes."';
+        
         let i = 0;
         let speed = 50; // Velocidade de digitação em milissegundos
 
         function typeWriter() {
             if (i < quote.length) {
-                quoteElement.innerHTML += quote.charAt(i);
+                quoteElement.textContent += quote.charAt(i);
                 i++;
                 setTimeout(typeWriter, speed);
             }
         }
-
-        // Adiciona um listener para a rolagem para o efeito de paralaxe
-        window.addEventListener('scroll', () => {
-            const parallaxElement = document.querySelector('.card-glow');
-            const scrollY = window.scrollY;
-            if (parallaxElement) {
-                parallaxElement.style.transform = `translateZ(0) translateY(${scrollY * 0.1}px)`;
-            }
-        });
 
         // Inicia o efeito de digitação quando a página carrega
         window.onload = function() {
             typeWriter();
         };
     </script>
+
 </body>
 </html>
