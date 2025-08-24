@@ -1,74 +1,60 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <!-- Título e Meta Descrições -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#c2e9fb">
+
     <title>Sobre Mim - Kayque Olimpio</title>
     <meta name="title" content="Página de perfil de Kayque Olimpio">
     <meta name="description" content="Página sobre Kayque Olimpio, com informações sobre seus interesses, experiência e competências.">
     
-    <!-- Configurações para dispositivos móveis -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#c2e9fb">
-    
-    <!-- Fontes do Google e Tailwind CSS CDN -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Importa a biblioteca de ícones Heroicons via CDN para uso com SVG -->
-    <style>
-        body {
-            font-family: 'Quicksand', sans-serif;
-            background-color: #eaf6ff;
-        }
-    </style>
-</head>
-<body class="bg-gradient-to-b from-blue-50 to-blue-200 min-h-screen flex flex-col items-center p-4">
+    </head>
+<body class="bg-gradient-to-b from-blue-50 to-blue-200 min-h-screen flex flex-col items-center py-12 px-4">
 
-    <!-- Menu de Navegação -->
-    <nav class="w-full max-w-lg mb-8">
-        <ul class="flex justify-center space-x-6 text-xl">
-            <li><a href="index.html" class="font-bold text-gray-700 hover:text-blue-600 transition-colors">Início</a></li>
-            <li><a href="about.html" class="font-bold text-blue-500 hover:text-blue-600 transition-colors">Sobre Mim</a></li>
-            <li><a href="projects.html" class="font-bold text-gray-700 hover:text-blue-600 transition-colors">Projetos</a></li>
-        </ul>
-    </nav>
+    <header class="w-full max-w-4xl mb-8">
+        <nav>
+            <ul class="flex justify-center space-x-6 text-xl">
+                <li><a href="index.html" class="font-bold text-gray-700 hover:text-blue-600 transition-colors">Início</a></li>
+                <li><a href="about.html" class="font-bold text-blue-500 hover:text-blue-600 transition-colors">Sobre Mim</a></li>
+                <li><a href="projects.html" class="font-bold text-gray-700 hover:text-blue-600 transition-colors">Projetos</a></li>
+                <li><a href="drawings.html" class="font-bold text-gray-700 hover:text-blue-600 transition-colors">Desenhos</a></li>
+            </ul>
+        </nav>
+    </header>
 
-    <!-- Card Principal para o Conteúdo -->
-    <div class="bg-white rounded-3xl shadow-2xl p-8 sm:p-12 w-full max-w-lg text-center flex flex-col items-center">
+    <main class="bg-white rounded-3xl shadow-2xl p-8 sm:p-12 w-full max-w-4xl flex flex-col items-center">
         
-        <!-- Título da página -->
         <h1 class="text-4xl sm:text-5xl font-extrabold text-blue-500 mb-4 tracking-tight">Sobre Mim</h1>
         
-        <!-- Imagem de perfil (substitua o URL pela sua própria foto) -->
-        <img src="https://prnt.sc/oSdw4a2octz4" alt="Foto de Perfil de Kayque" class="w-32 h-32 rounded-full mb-6 shadow-md">
+        <img src="https://placehold.co/150x150/e0f2fe/1c313a?text=Foto" alt="Foto de Perfil de Kayque" class="w-32 h-32 rounded-full mb-6 shadow-md">
         
-        <!-- Breve descrição sobre você -->
-        <p class="text-gray-700 text-lg sm:text-xl leading-relaxed mb-6 font-medium">
+        <p class="text-gray-700 text-lg sm:text-xl leading-relaxed mb-6 font-medium text-center max-w-2xl">
             Minha experiência profissional, que teve início em 2020 como designer gráfico, se destaca pela minha capacidade de comunicação e liderança. Sou proativo e comunicativo, com grande facilidade para trabalhar em equipe, o que me permite atuar como um líder eficaz. Atualmente, estou em busca de uma oportunidade como Jovem Aprendiz para aplicar e aprimorar minhas habilidades, além de contribuir de forma significativa para o crescimento de uma empresa.
         </p>
 
-        <!-- Seção de Experiência Profissional -->
-        <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mt-4 mb-2">Experiência Profissional</h2>
-        <ul class="text-gray-600 text-md sm:text-lg text-left w-full max-w-sm space-y-4">
+        <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mt-4 mb-4">Experiência Profissional</h2>
+        <ul class="text-gray-600 text-md sm:text-lg text-left w-full max-w-md space-y-4">
             <li class="flex items-start">
-                <!-- Ícone de vendas -->
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 mt-1 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 mt-1 text-blue-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.182 1.832.707 2.228.995.422 2.247.422 3.242 0M10 14a2 2 0 100-4 2 2 0 000 4zm5 0a2 2 0 100-4 2 2 0 000 4zm-9 3.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm5 0a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
                 </svg>
-                <div class="flex-1">
+                <div>
                     <p class="font-semibold text-gray-800">Assistente de Vendas Freelance</p>
                     <p class="text-sm text-gray-500">Agosto de 2023</p>
                     <p class="text-sm mt-1">Atuação na área de vendas, com foco em atendimento ao público e organização de estoque.</p>
                 </div>
             </li>
             <li class="flex items-start">
-                <!-- Ícone de design -->
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 mt-1 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 mt-1 text-blue-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L15.232 5.232z" />
                 </svg>
-                <div class="flex-1">
+                <div>
                     <p class="font-semibold text-gray-800">Designer Gráfico Freelance</p>
                     <p class="text-sm text-gray-500">Setembro - Outubro de 2022</p>
                     <p class="text-sm mt-1">Responsável pela criação de materiais visuais, incluindo imagens, miniaturas (thumbnails) e banners.</p>
@@ -76,48 +62,34 @@
             </li>
         </ul>
 
-        <!-- Seção de Competências -->
-        <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mt-8 mb-2">Competências</h2>
-        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-600 text-md sm:text-lg text-left w-full max-w-sm">
-            <li class="flex items-center p-2 bg-blue-100 rounded-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-                <span class="text-gray-800">Proatividade</span>
+        <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mt-8 mb-4">Competências</h2>
+        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-600 w-full max-w-md">
+            <li class="flex items-center p-3 bg-blue-50 rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                <span class="text-gray-800 font-medium">Proatividade</span>
             </li>
-            <li class="flex items-center p-2 bg-blue-100 rounded-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-                </svg>
-                <span class="text-gray-800">Comunicação</span>
+            <li class="flex items-center p-3 bg-blue-50 rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" /></svg>
+                <span class="text-gray-800 font-medium">Comunicação</span>
             </li>
-            <li class="flex items-center p-2 bg-blue-100 rounded-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.974 2.887a1 1 0 00-.363 1.118l1.519 4.674c.3.921-.755 1.688-1.54 1.118l-3.974-2.887a1 1 0 00-1.176 0l-3.974 2.887c-.784.57-1.838-.197-1.539-1.118l1.518-4.674a1 1 0 00-.363-1.118L2.983 9.702c-.783-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-                </svg>
-                <span class="text-gray-800">Liderança</span>
+            <li class="flex items-center p-3 bg-blue-50 rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.974 2.887a1 1 0 00-.363 1.118l1.519 4.674c.3.921-.755 1.688-1.54 1.118l-3.974-2.887a1 1 0 00-1.176 0l-3.974 2.887c-.784.57-1.838-.197-1.539-1.118l1.518-4.674a1 1 0 00-.363-1.118L2.983 9.702c-.783-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
+                <span class="text-gray-800 font-medium">Liderança</span>
             </li>
-            <li class="flex items-center p-2 bg-blue-100 rounded-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h-4a2 2 0 01-2-2V8a2 2 0 012-2h4a2 2 0 012 2v10a2 2 0 01-2 2zm-5-18a2 2 0 00-2 2v16a2 2 0 002 2h4a2 2 0 002-2V4a2 2 0 00-2-2h-4z" />
-                </svg>
-                <span class="text-gray-800">Trabalho em Equipe</span>
+            <li class="flex items-center p-3 bg-blue-50 rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M15 21a6 6 0 00-9-5.197M15 11a4 4 0 110-5.292" /></svg>
+                <span class="text-gray-800 font-medium">Trabalho em Equipe</span>
             </li>
-            <li class="flex items-center p-2 bg-blue-100 rounded-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 16h16M4 8h16M4 20h16" />
-                </svg>
-                <span class="text-gray-800">Atendimento ao Cliente</span>
+            <li class="flex items-center p-3 bg-blue-50 rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9 12l-2.828-2.828-2.829 2.829 2.829 2.828L9 12zm0 0l2.828 2.828 2.829-2.829-2.829-2.828L18 3z" /></svg>
+                <span class="text-gray-800 font-medium">Atendimento ao Cliente</span>
             </li>
-            <li class="flex items-center p-2 bg-blue-100 rounded-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M7 11.5V10c0-1.657 1.343-3 3-3h.01M17 11.5V10c0-1.657-1.343-3-3-3h-.01" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5c2.761 0 5-2.239 5-5s-2.239-5-5-5-5 2.239-5 5 2.239 5 5 5z" />
-                </svg>
-                <span class="text-gray-800">Design de Imagens</span>
+            <li class="flex items-center p-3 bg-blue-50 rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l-1.586-1.586a2 2 0 01-2.828 0L6 14m6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                <span class="text-gray-800 font-medium">Design de Imagens</span>
             </li>
         </ul>
-    </div>
+    </main>
 
 </body>
 </html>
