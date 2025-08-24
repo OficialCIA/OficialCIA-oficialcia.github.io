@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap');
+
 .anilist {
     font-family: 'Major Mono Display', monospace;
     text-align: center;
@@ -6,6 +8,4 @@
     background-repeat: no-repeat;
     color: gray;
     height: 535px;
-    
 }
-@import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap');
